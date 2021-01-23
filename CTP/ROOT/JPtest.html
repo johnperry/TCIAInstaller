@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<title>TCIA Test Page</title>
+		<script>
+			function submitFile() {
+				var dir = document.getElementById("dir").value;
+				window.open("/Collection/submitFile?file="+dir, "target");
+			}
+			function getSpaceRequired() {
+				var dir = document.getElementById("dir").value;
+				window.open("/Collection/getSpaceRequired?file="+dir, "target");
+			}
+			function listFiles() {
+				var dir = document.getElementById("dir").value;
+				window.open("/Collection/listFiles?dir="+dir, "target");
+			}
+		</script>
+	</head>
+	<body>
+		Input directory: <input type="text" id="dir" value="/Data/TCIA" style="width:385px"/>
+		<br/>
+		<a href="javascript:getSpaceRequired()">getSpaceRequired</a>
+		<br/>
+		<a href="javascript:listFiles()">listFiles</a>
+		<br/>
+		<a href="javascript:submitFile()">submitFile</a>
+		<br/><br/>
+		
+		<a href="/Collection/getImportStatus" target="target">getImportStatus</a>
+		<br/>
+		<a href="/Collection/getImportManifestInstanceCount" target="target">getImportManifestInstanceCount</a>
+		<br/>
+		<a href="/Collection/listImport" target="target">listImport</a>
+		<br/>
+		<br/>
+		<a href="/Collection/listImportManifest/xml" target="target">listImportManifest/xml</a>
+		<br/>
+		<a href="/Collection/listImportManifest/csv" target="target">listImportManifest/csv</a>
+		<br/>
+		<a href="/Collection/listImportManifest/xlsx" target="target">listImportManifest/xslx</a>
+		<br/><br/>
+		
+		<a href="/Collection/listLookupTableTemplate" target="target">listLookupTableTemplate</a>
+		<br/>
+		<form id="formID" method="post" action="/Collection" enctype="multipart/form-data" accept-charset="UTF-8" target="target">
+			Submit LUT: 
+			<input name="file" type="file" id="file" style="width:400px"/>
+			<input type="submit" value="Submit"/>
+		</form>
+		
+		
+		<a href="/Collection/clearExportManifest" target="target">clearExportManifest</a>
+		<br/>
+		<a href="/Collection/initializeAnonymizerPipelineCounts" target="target">initializeAnonymizerPipelineCounts</a>
+		<br/>
+		<a href="/Collection/anonymize?file=DirectoryStorageService" target="target">anonymize</a>
+		<br/>
+		<a href="/Collection/getExportManifestStatus" target="target">getExportManifestStatus</a>
+		<br/>
+		<a href="/Collection/listAnonymized" target="target">listAnonymized</a>
+		<br/><br/>
+		
+		<a href="/Collection/pause" target="target">pause</a>
+		<br/>
+		<a href="/Collection/restart" target="target">restart</a>
+		<br/><br/>
+
+		<a href="/Collection/export?file=DirectoryStorageService" target="target">export</a>
+		<br/>
+		<a href="/Collection/getExportQueueSize" target="target">getExportQueueSize</a>
+		<br/><br/>
+		
+		<a href="/Collection/listLocalManifest/xml" target="target">listLocalManifest/xml</a>
+		<br/>
+		<a href="/Collection/listLocalManifest/csv" target="target">listLocalManifest/csv</a>
+		<br/>
+		<a href="/Collection/listLocalManifest/xlsx" target="target">listLocalManifest/xslx</a>
+		<br/>
+		<a href="/Collection/listExportManifest/xml" target="target">listExportManifest/xml</a>
+		<br/>
+		<a href="/Collection/listExportManifest/csv" target="target">listExportManifest/csv</a>
+		<br/>
+		<a href="/Collection/listExportManifest/xlsx" target="target">listExportManifest/xslx</a>
+		<br/>
+		<a href="/Collection/exportManifest" target="target">exportManifest</a>
+		<br/><br/>
+		
+		<a href="/Collection/listHistory" target="target">listHistory</a>
+		<br/>
+		<a href="/Collection/listHistory/phi" target="target">listHistory/phi</a>
+		<br/><br/>
+
+		<a href="/Collection/getFileSystemRoots" target="target">getFileSystemRoots</a>
+		<br/>
+		<a href="/Collection/getAvailableSpace" target="target">getAvailableSpace</a>
+		<br/>
+		<a href="/Collection/getQuarantineURL" target="target">getQuarantineURL</a>
+		<br/>
+		<a href="/Collection/dashboard" target="target">dashboard</a>
+		<br/>
+		<a href="/Collection/reset" target="target">reset</a>
+		<br/>
+		<a href="/Collection/resetHistory" target="target">resetHistory</a>
+		<br/>
+	</body>
+</html>

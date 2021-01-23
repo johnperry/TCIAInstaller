@@ -1,0 +1,834 @@
+<script>
+ <!-- Project = ABCD-WXYZ, version 1.0 created on x/xx/12 	-->
+ <!-- Source = tcia-sup142-2013-02-28 script 	-->
+ <!-- Works with CTP 5-21-2012 or later -->
+ <!-- PIDs will be ABCD-WXYZ-xx-xxxx. 	-->
+ <!-- Patient Name = PID 	-->
+<!-- Support for SR objects added 6-26-2015 	-->
+<!-- Support for RT objects added 7-28-2015	-->
+<!-- Clean Structured Content option added 7-28-2015 -->
+<!-- Updated script based on MAASTRO comparison 8-17-2015 -->
+ <!-- KEEP PRIVATE TAGS (Remove Private Tags is set to "F" FALSE) for TagSniffer work at WUSTL	-->
+ <!-- If BODY-PART-EXAMINED 00180015 is set to "KEEP" then use-->
+ <!-- e en="T" t="00180015" n="BodyPartExamined">@keep() -->
+ <p t="DATEINC">-1000</p>
+ <p t="NORMDATE">19400101</p>
+ <p t="BODYPART">TEST</p>
+ <p t="PROFILENAME">TCIA Default</p>
+ <p t="SITEID">99999999</p>
+ <p t="SITENAME">TCIA</p>
+ <p t="UIDROOT">1.3.6.1.4.1.14519.5.2.1.9999.9999</p>
+ <e en="T" t="00080012" n="InstanceCreationDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080014" n="InstanceCreatorUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="00080016" n="SOPClassUID">@keep()</e>
+ <e en="T" t="00080018" n="SOPInstanceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00080020" n="StudyDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080021" n="SeriesDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080022" n="AcquisitionDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080023" n="ContentDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080024" n="OverlayDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080025" n="CurveDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="0008002a" n="AcquisitionDatetime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00080030" n="StudyTime">@keep()</e>
+ <e en="T" t="00080031" n="SeriesTime">@keep()</e>
+ <e en="T" t="00080032" n="AcquisitionTime">@keep()</e>
+ <e en="T" t="00080033" n="ContentTime">@keep()</e>
+ <e en="T" t="00080034" n="OverlayTime">@keep()</e>
+ <e en="T" t="00080035" n="CurveTime">@keep()</e>
+ <e en="T" t="00080050" n="AccessionNumber">@hash(this,16)</e>
+ <e en="T" t="00080058" n="FailedSOPInstanceUIDList">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00080070" n="Manufacturer">@keep()</e>
+ <e en="T" t="00080080" n="InstitutionName">@remove()</e>
+ <e en="T" t="00080081" n="InstitutionAddress">@remove()</e>
+ <e en="T" t="00080082" n="InstitutionCodeSeq">@remove()</e>
+ <e en="T" t="00080090" n="ReferringPhysicianName">@empty()</e>
+ <e en="T" t="00080092" n="ReferringPhysicianAddress">@remove()</e>
+ <e en="T" t="00080094" n="ReferringPhysicianPhoneNumbers">@remove()</e>
+ <e en="T" t="00080096" n="ReferringPhysiciansIDSeq">@remove()</e>
+ <e en="T" t="0008010d" n="ContextGroupExtensionCreatorUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00080201" n="TimezoneOffsetFromUTC">@remove()</e>
+ <e en="T" t="00081010" n="StationName">@remove()</e>
+ <e en="T" t="00081030" n="StudyDescription">@keep()</e>
+ <e en="T" t="0008103e" n="SeriesDescription">@keep()</e>
+ <e en="T" t="00081040" n="InstitutionalDepartmentName">@remove()</e>
+ <e en="T" t="00081048" n="PhysicianOfRecord">@remove()</e>
+ <e en="T" t="00081049" n="PhysicianOfRecordIdSeq">@remove()</e>
+ <e en="T" t="00081050" n="PerformingPhysicianName">@remove()</e>
+ <e en="T" t="00081052" n="PerformingPhysicianIdSeq">@remove()</e>
+ <e en="T" t="00081060" n="NameOfPhysicianReadingStudy">@remove()</e>
+ <e en="T" t="00081062" n="PhysicianReadingStudyIdSeq">@remove()</e>
+ <e en="T" t="00081070" n="OperatorName">@remove()</e>
+ <e en="T" t="00081072" n="OperatorsIdentificationSeq">@remove()</e>
+ <e en="T" t="00181078" n="Radiopharmaceutical Start DateTime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00181079" n="Radiopharmaceutical Stop DateTime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00081080" n="AdmittingDiagnosesDescription">@keep()</e>
+ <e en="T" t="00081084" n="AdmittingDiagnosesCodeSeq">@process()</e>
+ <e en="T" t="00081090" n="ManufacturerModelName">@keep()</e>
+ <e en="T" t="00081110" n="RefStudySeq">@process()</e>
+ <e en="T" t="00081111" n="RefPPSSeq">@process()</e>
+<e en="T" t="00081115" n="RefSeriesSeq">@process()</e>
+ <e en="T" t="00081120" n="RefPatientSeq">@remove()</e>
+ <e en="T" t="00081140" n="RefImageSeq">@process()</e>
+<e en="T" t="0008114a" n="RefInstanceSeq">@process()</e>
+ <e en="T" t="00081150" n="RefSOPClassUID">@keep()</e>
+ <e en="T" t="00081155" n="RefSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00081195" n="TransactionUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="00081200" n="StudiesContainingOtherRefInstancesSeq">@process()</e>
+ <e en="T" t="00082111" n="DerivationDescription">@keep()</e>
+ <e en="T" t="00082112" n="SourceImageSeq">@process()</e>
+ <e en="T" t="00083010" n="IrradiationEventUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00084000" n="IdentifyingComments">@keep()</e>
+ <e en="T" t="00089123" n="CreatorVersionUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="00089124" n="DerivationImageSeq">@process()</e>
+ <e en="T" t="00100010" n="PatientName">@lookup(PatientID,ptid)</e>
+ <e en="T" t="00100020" n="PatientID">@lookup(this,ptid)</e>
+ <e en="T" t="00100021" n="IssuerOfPatientID">@remove()</e>
+ <e en="T" t="00100030" n="PatientBirthDate">@empty()</e>
+ <e en="T" t="00100032" n="PatientBirthTime">@remove()</e>
+ <e en="T" t="00100040" n="PatientSex">@keep()</e>
+ <e en="T" t="00100050" n="PatientInsurancePlanCodeSeq">@remove()</e>
+ <e en="T" t="00100101" n="PatientPrimaryLanguageCodeSeq">@remove()</e>
+ <e en="T" t="00100102" n="PatientPrimaryLanguageModifierCodeSeq">@remove()</e>
+ <e en="T" t="00101000" n="OtherPatientIDs">@remove()</e>
+ <e en="T" t="00101001" n="OtherPatientNames">@remove()</e>
+ <e en="T" t="00101002" n="OtherPatientIDsSeq">@remove()</e>
+ <e en="T" t="00101005" n="PatientBirthName">@remove()</e>
+ <e en="T" t="00101010" n="PatientAge">@keep()</e>
+ <e en="T" t="00101020" n="PatientSize">@keep()</e>
+ <e en="T" t="00101030" n="PatientWeight">@keep()</e>
+ <e en="T" t="00101040" n="PatientAddress">@remove()</e>
+ <e en="T" t="00101050" n="InsurancePlanIdentification">@remove()</e>
+ <e en="T" t="00101060" n="PatientMotherBirthName">@remove()</e>
+ <e en="T" t="00101080" n="MilitaryRank">@remove()</e>
+ <e en="T" t="00101081" n="BranchOfService">@remove()</e>
+ <e en="T" t="00101090" n="MedicalRecordLocator">@remove()</e>
+ <e en="T" t="00102000" n="MedicalAlerts">@keep()</e>
+ <e en="T" t="00102110" n="Allergies">@keep()</e>
+ <e en="T" t="00102150" n="CountryOfResidence">@remove()</e>
+ <e en="T" t="00102152" n="RegionOfResidence">@remove()</e>
+ <e en="T" t="00102154" n="PatientPhoneNumbers">@remove()</e>
+ <e en="T" t="00102160" n="EthnicGroup">@keep()</e>
+ <e en="T" t="00102180" n="Occupation">@keep()</e>
+ <e en="T" t="001021a0" n="SmokingStatus">@keep()</e>
+ <e en="T" t="001021b0" n="AdditionalPatientHistory">@keep()</e>
+ <e en="T" t="001021c0" n="PregnancyStatus">@keep()</e>
+ <e en="T" t="001021d0" n="LastMenstrualDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="001021f0" n="PatientReligiousPreference">@remove()</e>
+ <e en="T" t="00102203" n="PatientSexNeutered">@keep()</e>
+ <e en="T" t="00102297" n="ResponsiblePerson">@remove()</e>
+ <e en="T" t="00102299" n="ResponsibleOrganization">@remove()</e>
+ <e en="T" t="00104000" n="PatientComments">@keep()</e>
+<e en="T" t="00120050" n="ClinicalTrialTimePointID">@always()@dateinterval(StudyDate,ddate,PatientID)</e>
+<e en="T" t="00120051" n="ClinicalTrialTimePointDescription">@always()Days offset from diagnosis</e>
+ <e en="T" t="00120062" n="PatientIdentityRemoved">@always()YES</e>
+ <e en="T" t="00120063" n="DeIdentificationMethod">@always()@append(){Per DICOM PS 3.15 AnnexE. Details in 0012,0064}</e>
+ <e en="T" t="00120064" n="DeIdentificationMethodCodeSequence">113100/113101/113104/113105/113107/113108/113109/113111</e>
+
+ <e en="T" t="00130010" n="BlockOwner">@always()CTP</e>
+<e en="T" t="00131010" n="ProjectName">@always()@lookup(PatientID,cname)</e>
+<e en="T" t="00131011" n="TrialName">@always()@lookup(PatientID,cname)</e>
+ <e en="T" t="00131012" n="SiteName">@always()@param(@SITENAME)</e>
+ <e en="T" t="00131013" n="SiteID">@always()@param(@SITEID)</e>
+
+<e en="T" t="00131050" n="StudyYear">@always()@modifydate(StudyDate,*,1,1)</e>
+<e en="T" t="00131051" n="DiagnosisYear">@always()@lookup(PatientID,ddate)</e>
+
+ <e en="T" t="00180010" n="ContrastBolusAgent">@keep()</e>
+ <e en="T" t="00180015" n="BodyPartExamined">@always()@param(@BODYPART)</e>
+ <e en="T" t="00181000" n="DeviceSerialNumber">@remove()</e>
+ <e en="T" t="00181002" n="DeviceUID">"@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00181004" n="PlateID">@remove()</e>
+ <e en="T" t="00181005" n="GeneratorID">@remove()</e>
+ <e en="T" t="00181007" n="CassetteID">@remove()</e>
+ <e en="T" t="00181008" n="GantryID">@remove()</e>
+ <e en="T" t="00181012" n="DateOfSecondaryCapture">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00181020" n="SoftwareVersion">@keep()</e>
+ <e en="T" t="00181030" n="ProtocolName">@keep()</e>
+ <e en="T" t="00181200" n="DateofLastCalibration">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00181400" n="AcquisitionDeviceProcessingDescription">@keep()</e>
+ <e en="T" t="00184000" n="AcquisitionComments">@keep()</e>
+ <e en="T" t="0018700a" n="DetectorID">@keep()</e>
+ <e en="T" t="0018700c" n="DateofLastDetectorCalibration">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00189424" n="AcquisitionProtocolDescription">@keep()</e>
+ <e en="T" t="0018a003" n="ContributionDescription">@keep()</e>
+ <e en="T" t="0020000d" n="StudyInstanceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="0020000e" n="SeriesInstanceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00200010" n="StudyID">@empty()</e>
+ <e en="T" t="00200052" n="FrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00200200" n="SynchronizationFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00203401" n="ModifyingDeviceID">@remove()</e>
+ <e en="T" t="00203404" n="ModifyingDeviceManufacturer">@remove()</e>
+ <e en="T" t="00203406" n="ModifiedImageDescription">@remove()</e>
+ <e en="T" t="00204000" n="ImageComments">@keep()</e>
+ <e en="T" t="00209158" n="FrameComments">@keep()</e>
+ <e en="T" t="00209161" n="ConcatenationUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00209164" n="DimensionOrganizationUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00209221" n="DimensionOrganizationSeq">@process()</e>
+ <e en="T" t="00209222" n="DimensionIndexSeq">@process()</e>
+ <e en="T" t="00280301" n="BurnedInAnnotation">@keep()</e>
+ <e en="T" t="00280303" n="LongitudinalTemporalInformationModified">@always()MODIFIED</e>
+ <e en="T" t="00281199" n="PaletteColorLUTUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00281214" n="LargePaletteColorLUTUid">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00284000" n="ImagePresentationComments">@remove()</e>
+ <e en="T" t="00320012" n="StudyIDIssuer">@remove()</e>
+<e en="T" t="00320032" n="StudyVerifiedDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="00320034" n="StudyReadDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00321000" n="ScheduledStudyStartDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="00321010" n="ScheduledStudyStopDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00321020" n="ScheduledStudyLocation">@remove()</e>
+ <e en="T" t="00321021" n="ScheduledStudyLocationAET">@remove()</e>
+ <e en="T" t="00321030" n="ReasonforStudy">@keep()</e>
+ <e en="T" t="00321032" n="RequestingPhysician">@remove()</e>
+ <e en="T" t="00321033" n="RequestingService">@remove()</e>
+ <e en="T" t="00321040" n="StudyArrivalDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00321050" n="StudyCompletionDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00321060" n="RequestedProcedureDescription">@keep()</e>
+ <e en="T" t="00321070" n="RequestedContrastAgent">@keep()</e>
+ <e en="T" t="00324000" n="StudyComments">@keep()</e>
+ <e en="T" t="00380004" n="RefPatientAliasSeq">@remove()</e>
+ <e en="T" t="00380010" n="AdmissionID">@remove()</e>
+ <e en="T" t="00380011" n="IssuerOfAdmissionID">@remove()</e>
+<e en="T" t="0038001a" n="ScheduledAdmissionDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="0038001c" n="ScheduledDischargeDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="0038001e" n="ScheduledPatientInstitutionResidence">@remove()</e>
+ <e en="T" t="00380020" n="AdmittingDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00380021" n="AdmittingTime">@keep()</e>
+<e en="T" t="00380030" n="DischargeDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="00380032" n="DischargeTime">@keep()</e>
+ <e en="T" t="00380040" n="DischargeDiagnosisDescription">@keep()</e>
+ <e en="T" t="00380050" n="SpecialNeeds">@keep()</e>
+ <e en="T" t="00380060" n="ServiceEpisodeID">@remove()</e>
+ <e en="T" t="00380061" n="IssuerOfServiceEpisodeId">@remove()</e>
+ <e en="T" t="00380062" n="ServiceEpisodeDescription">@keep()</e>
+ <e en="T" t="00380300" n="CurrentPatientLocation">@remove()</e>
+ <e en="T" t="00380400" n="PatientInstitutionResidence">@remove()</e>
+ <e en="T" t="00380500" n="PatientState">@keep()</e>
+<e en="F" t="00381234" n="ReferencedPatientAliasSeq">@remove()</e>
+ <e en="T" t="00384000" n="VisitComments">@keep()</e>
+ <e en="T" t="00400001" n="ScheduledStationAET">@remove()</e>
+ <e en="T" t="00400002" n="SPSStartDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00400003" n="SPSStartTime">@keep()</e>
+ <e en="T" t="00400004" n="SPSEndDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00400005" n="SPSEndTime">@keep()</e>
+ <e en="T" t="00400006" n="ScheduledPerformingPhysicianName">@remove()</e>
+ <e en="T" t="00400007" n="SPSDescription">@keep()</e>
+ <e en="T" t="0040000b" n="ScheduledPerformingPhysicianIDSeq">@remove()</e>
+ <e en="T" t="00400010" n="ScheduledStationName">@remove()</e>
+ <e en="T" t="00400011" n="SPSLocation">@remove()</e>
+ <e en="T" t="00400012" n="PreMedication">@keep()</e>
+ <e en="T" t="00400241" n="PerformedStationAET">@remove()</e>
+ <e en="T" t="00400242" n="PerformedStationName">@remove()</e>
+ <e en="T" t="00400243" n="PerformedLocation">@remove()</e>
+ <e en="T" t="00400244" n="PPSStartDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00400245" n="PPSStartTime">@keep()</e>
+ <e en="T" t="00400250" n="PPSEndDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00400253" n="PPSID">@remove()</e>
+ <e en="T" t="00400254" n="PPSDescription">@keep()</e>
+ <e en="T" t="00400275" n="RequestAttributesSeq">@remove()</e>
+ <e en="T" t="00400280" n="CommentsOnPPS">@keep()</e>
+<e en="T" t="0040030e" n="ExposureDoseSeq">@process()</e>
+ <e en="T" t="00400555" n="AcquisitionContextSeq">@process()</e>
+<e en="T" t="004008ea" n="MeasurementUnitCodeSeq">@process()</e>
+ <e en="T" t="00401001" n="RequestedProcedureID">@remove()</e>
+ <e en="T" t="00401004" n="PatientTransportArrangements">@remove()</e>
+ <e en="T" t="00401005" n="RequestedProcedureLocation">@remove()</e>
+ <e en="T" t="00401010" n="NamesOfIntendedRecipientsOfResults">@remove()</e>
+ <e en="T" t="00401011" n="IntendedRecipientsOfResultsIDSequence">@remove()</e>
+ <e en="T" t="00401101" n="PersonIdCodeSequence">@remove()</e>
+ <e en="T" t="00401102" n="PersonAddress">@remove()</e>
+ <e en="T" t="00401103" n="PersonTelephoneNumbers">@remove()</e>
+ <e en="T" t="00401400" n="RequestedProcedureComments">@keep()</e>
+ <e en="T" t="00402001" n="ReasonForImagingServiceRequest">@keep()</e>
+<e en="T" t="00402004" n="IssueDateOfImagingServiceRequest">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="00402008" n="OrderEnteredBy">@remove()</e>
+ <e en="T" t="00402009" n="OrderEntererLocation">@remove()</e>
+ <e en="T" t="00402010" n="OrderCallbackPhoneNumber">@remove()</e>
+ <e en="T" t="00402016" n="PlaceOrderNumber">@empty()</e>
+ <e en="T" t="00402017" n="FillerOrderNumber">@empty()</e>
+ <e en="T" t="00402400" n="ImagingServiceRequestComments">@keep()</e>
+ <e en="T" t="00403001" n="ConfidentialityPatientData">@remove()</e>
+ <e en="T" t="00404023" n="RefGenPurposeSchedProcStepTransUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00404025" n="ScheduledStationNameCodeSeq">@remove()</e>
+ <e en="T" t="00404027" n="ScheduledStationGeographicLocCodeSeq">@remove()</e>
+ <e en="T" t="00404028" n="PerformedStationNameCodeSeq">@remove()</e>
+ <e en="T" t="00404030" n="PerformedStationGeoLocCodeSeq">@remove()</e>
+ <e en="T" t="00404034" n="ScheduledHumanPerformersSeq">@remove()</e>
+ <e en="T" t="00404035" n="ActualHumanPerformersSequence">@remove()</e>
+ <e en="T" t="00404036" n="HumanPerformersOrganization">@remove()</e>
+ <e en="T" t="00404037" n="HumanPerformersName">@remove()</e>
+ <e en="T" t="0040a027" n="VerifyingOrganization">@remove()</e>
+<e en="T" t="0040a030" n="VerificationDateTime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="0040a032" n="ObservationDateTime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="0040a043" n="ConceptNameCodeSeq">@process()</e>
+ <e en="T" t="0040a073" n="VerifyingObserverSeq">@remove()</e>
+ <e en="T" t="0040a075" n="VerifyingObserverName">@empty()</e>
+ <e en="T" t="0040a078" n="AuthorObserverSequence">@remove()</e>
+ <e en="T" t="0040a07a" n="ParticipantSequence">@remove()</e>
+ <e en="T" t="0040a07c" n="CustodialOrganizationSeq">@remove()</e>
+ <e en="T" t="0040a088" n="VerifyingObserverIdentificationCodeSeq">@remove()</e>
+<e en="T" t="0040a120" n="DateTime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="0040a121" n="Date">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="0040a123" n="PersonName">@empty()</e>
+ <e en="T" t="0040a124" n="UID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="0040a13a" n="RefDatetime">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="0040a168" n="ConceptCodeSeq">@process()</e>
+<e en="T" t="0040a300" n="MeasuredValueSeq">@process()</e>
+<e en="F" t="0040a504" n="ContentTemplateSeq">@process()</e>
+<e en="T" t="0040a730" n="ContentSeq">@process()</e>
+ <e en="T" t="0040db0c" n="TemplateExtensionOrganizationUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="0040db0d" n="TemplateExtensionCreatorUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00540016" n="RadiopharmaceuticalInformationSeq">@process()</e>
+<e en="T" t="00640002" n="DeformableRegistrationSeq">@process()</e>
+<e en="T" t="00640003" n="SourceFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00700001" n="GraphicAnnotationSequence">@remove()</e>
+ <e en="T" t="00700084" n="ContentCreatorsName">@empty()</e>
+ <e en="T" t="00700086" n="ContentCreatorsIdCodeSeq">@remove()</e>
+ <e en="T" t="0070031a" n="FiducialUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00880140" n="StorageMediaFilesetUID">@hashuid(@UIDROOT,this)</e>
+ <e en="T" t="00880200" n="IconImageSequence">@remove()</e>
+ <e en="T" t="00880904" n="TopicTitle">@remove()</e>
+ <e en="T" t="00880906" n="TopicSubject">@remove()</e>
+ <e en="T" t="00880910" n="TopicAuthor">@remove()</e>
+ <e en="T" t="00880912" n="TopicKeyWords">@remove()</e>
+ <e en="T" t="04000100" n="DigitalSignatureUID">@remove()</e>
+ <e en="T" t="04000402" n="RefDigitalSignatureSeq">@remove()</e>
+ <e en="T" t="04000404" n="MAC">@remove()</e>
+ <e en="T" t="04000403" n="RefSOPInstanceMACSeq">@remove()</e>
+ <e en="T" t="04000550" n="ModifiedAttributesSequence">@remove()</e>
+ <e en="T" t="04000561" n="OriginalAttributesSequence">@remove()</e>
+ <e en="T" t="20300020" n="TextString">@remove()</e>
+ <e en="T" t="30060008" n="StructureSetDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="30060010" n="RefFrameOfReferenceSeq">@process()</e>
+<e en="T" t="30060012" n="RTRefStudySeq">@process()</e>
+<e en="T" t="30060014" n="RTRefSeriesSeq">@process()</e>
+<e en="T" t="30060016" n="ContourImageSeq">@process()</e>
+<e en="T" t="30060020" n="StructureSetROISeq">@process()</e>
+ <e en="T" t="30060024" n="ReferencedFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="30060039" n="ROIContourSeq">@process()</e>
+<e en="T" t="30060040" n="ContourSeq">@process()</e>
+ <e en="T" t="300600c2" n="RelatedFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="300a0002" n="RTPlanLabel">@keep()</e>
+<e en="T" t="300a0003" n="RTPlanName">@keep()</e>
+<e en="T" t="300a0006" n="RTPlanDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+<e en="T" t="300a0010" n="DoseReferenceSeq">@process()</e>
+ <e en="T" t="300a0013" n="DoseReferenceUID">@hashuid(@UIDROOT,this)</e>
+<e en="T" t="300a0070" n="FractionGroupSeq">@process()</e>
+<e en="T" t="300a00b0" n="BeamSeq">@process()</e>
+<e en="T" t="300a0180" n="PatientSetupSeq">@process()</e>
+<e en="T" t="300a03a2" n="IonBeamSeq">@process()</e>
+<e en="T" t="300c0002" n="RefRTPlanSeq">@process()</e>
+<e en="T" t="300c0004" n="RefBeamSeq">@process()</e>
+<e en="T" t="300c0042" n="RefReferenceImageSeq">@process()</e>
+<e en="T" t="300c0060" n="RefStructureSetSeq">@process()</e>
+<e en="T" t="300e0004" n="ReviewDate">@dateinterval(StudyDate,ddate,PatientID,@NORMDATE)</e>
+ <e en="T" t="300e0008" n="ReviewerName">@remove()</e>
+ <e en="T" t="40000010" n="Arbitrary">@remove()</e>
+ <e en="T" t="40004000" n="TextComments">@remove()</e>
+ <e en="T" t="40080042" n="ResultsIDIssuer">@remove()</e>
+ <e en="T" t="40080102" n="InterpretationRecorder">@remove()</e>
+ <e en="T" t="4008010a" n="InterpretationTranscriber">@remove()</e>
+ <e en="T" t="4008010b" n="InterpretationText">@keep()</e>
+ <e en="T" t="4008010c" n="InterpretationAuthor">@remove()</e>
+ <e en="T" t="40080111" n="InterpretationApproverSequence">@remove()</e>
+ <e en="T" t="40080114" n="PhysicianApprovingInterpretation">@remove()</e>
+ <e en="T" t="40080115" n="InterpretationDiagnosisDescription">@keep()</e>
+ <e en="T" t="40080118" n="ResultsDistributionListSeq">@remove()</e>
+ <e en="T" t="40080119" n="DistributionName">@remove()</e>
+ <e en="T" t="4008011a" n="DistributionAddress">@remove()</e>
+ <e en="T" t="40080202" n="InterpretationIdIssuer">@remove()</e>
+ <e en="T" t="40080300" n="Impressions">@keep()</e>
+ <e en="T" t="40084000" n="ResultComments">@keep()</e>
+<e en="T" t="52009230" n="PerFrameFunctionalGroupSeq">@process()</e>
+ <e en="T" t="fffafffa" n="DigitalSignaturesSeq">@remove()</e>
+ <e en="T" t="fffcfffc" n="DataSetTrailingPadding">@remove()</e>
+ <r en="T" t="curves">Remove curves</r>
+ <r en="T" t="overlays">Remove overlays</r>
+ <r en="F" t="privategroups">Remove private groups</r>
+
+<e en="T" t="0009[EMAGEON JPEG2K INFO]00" n="">@remove()</e>
+<e en="T" t="0009[EMAGEON JPEG2K INFO]01" n="">@remove()</e>
+<e en="T" t="0009[EMAGEON STUDY HOME]00" n="">@remove()</e>
+<e en="T" t="0009[EMAGEON STUDY HOME]01" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]05" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]0d" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]0e" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]10" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]12" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]39" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]3b" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]3d" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]68" n="">@remove()</e>
+<e en="T" t="0009[GEIIS]6c" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]01" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]10" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]11" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]12" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]1e" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]20" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]21" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]40" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]41" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]42" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]43" n="">@remove()</e>
+<e en="T" t="0009[GEMS_GENIE_1]46" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]05" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]0d" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]0e" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]30" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]31" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]37" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]39" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]3b" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]3d" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]40" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]5f" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]67" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]68" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]6c" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]7b" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]e4" n="">@remove()</e>
+<e en="T" t="0009[GEMS_IDEN_01]e7" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]02" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]06" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]10" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]32" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]33" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]58" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]5f" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]62" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]63" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]64" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]65" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]71" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]72" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]82" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]83" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]96" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]99" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]c8" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]c9" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]ca" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]d2" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]e4" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]ea" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]eb" n="">@remove()</e>
+<e en="T" t="0009[GEMS_PETD_01]ec" n="">@remove()</e>
+<e en="T" t="0009[IMBIO JSON REPORT CONTENTS]00" n="">@remove()</e>
+<e en="T" t="0009[SECTRA_Ident_01]01" n="">@remove()</e>
+<e en="T" t="0009[SIEMENS CT VA1 DUMMY]01" n="">@remove()</e>
+<e en="T" t="0009[SPI RELEASE 1]15" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]00" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]05" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]0d" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]0e" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]39" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]3b" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]3d" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]68" n="">@remove()</e>
+<e en="T" t="0009[Unnamed Private Block - 10]6c" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]0a" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]10" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]12" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]13" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]3f" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]44" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]45" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]46" n="">@remove()</e>
+<e en="T" t="0011[GEMS_GENIE_1]57" n="">@remove()</e>
+<e en="T" t="0011[GEMS_PETD_01]01" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]10" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]12" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]13" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]20" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]21" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]30" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]31" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]33" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]34" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]35" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]36" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]40" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]42" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]50" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]51" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]52" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]53" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]54" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]55" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]56" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]57" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]58" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]59" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]5a" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]5b" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]5c" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]5e" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]5f" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]60" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]61" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]62" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]63" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]64" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]65" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]66" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]67" n="">@remove()</e>
+<e en="T" t="0011[IPKCREP 2Q00+0C  TMIGA ERPVITA EADAT]68" n="">@remove()</e>
+
+<e en="T" t="0017[Unnamed Private Block - 10]04" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]a7" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]a8" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]a9" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]aa" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]ab" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]ac" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]ad" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]ae" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]af" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b0" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b1" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b2" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b3" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b4" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b5" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b6" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b7" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b8" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]b9" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]ba" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]bb" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]bc" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]bd" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]df" n="">@remove()</e>
+<e en="T" t="0019[GEMS_ACQU_01]e0" n="">@remove()</e>
+<e en="T" t="0019[SIEMENS MR HEADER]08" n="">@remove()</e>
+<e en="T" t="0019[SIEMENS MR HEADER]09" n="">@remove()</e>
+<e en="T" t="0019[SIEMENS MR HEADER]0a" n="">@remove()</e>
+<e en="T" t="0019[SIEMENS MR HEADER]29" n="">@remove()</e>
+<e en="T" t="0019[SIEMENS SIENET]01" n="">@remove()</e>
+<e en="T" t="0019[Unnamed Private Block - 10]04" n="">@remove()</e>
+<e en="T" t="0021[GEMS_RELA_01]03" n="">@remove()</e>
+<e en="T" t="0021[GEMS_RELA_01]07" n="">@remove()</e>
+<e en="T" t="0021[GEMS_RELA_01]19" n="">@remove()</e>
+<e en="T" t="0021[GEMS_RELA_01]35" n="">@remove()</e>
+<e en="T" t="0021[GEMS_RELA_01]37" n="">@remove()</e>
+<e en="T" t="0021[SIEMENS MED ECAT FILE INFO]00" n="">@remove()</e>
+<e en="T" t="0021[SIEMENS MED ECAT FILE INFO]01" n="">@remove()</e>
+<e en="T" t="0023[GEMS_STDY_01]80" n="">@remove()</e>
+<e en="T" t="0025[GEMS_SERS_01]1a" n="">@remove()</e>
+<e en="T" t="0025[GEMS_SERS_01]1b" n="">@remove()</e>
+<e en="T" t="0027[GEMS_IMAG_01]06" n="">@remove()</e>
+<e en="T" t="0029[MITRA MARKUP 1.0]00" n="">@remove()</e>
+<e en="T" t="0029[MITRA MARKUP 1.0]01" n="">@remove()</e>
+<e en="T" t="0029[MITRA MARKUP 1.0]02" n="">@remove()</e>
+<e en="T" t="0029[MITRA MARKUP 1.0]03" n="">@remove()</e>
+<e en="T" t="0029[MITRA MARKUP 1.0]04" n="">@remove()</e>
+<e en="T" t="0029[MITRA OBJECT DOCUMENT 1.0]00" n="">@remove()</e>
+<e en="T" t="0029[MITRA PRESENTATION 1.0]00" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]08" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]09" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]10" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]18" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]19" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS CSA HEADER]20" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]20" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]31" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]32" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]33" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]34" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM HEADER]40" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM OOG]08" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM OOG]09" n="">@remove()</e>
+<e en="T" t="0029[SIEMENS MEDCOM OOG]10" n="">@remove()</e>
+<e en="T" t="0031[AGFA PACS Archive Mirroring 1.0]00" n="">@remove()</e>
+<e en="T" t="0031[AGFA PACS Archive Mirroring 1.0]01" n="">@remove()</e>
+<e en="T" t="0031[MITRA LINKED ATTRIBUTES 1.0]20" n="">@remove()</e>
+<e en="T" t="0033[GEMS_GENIE_1]07" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]04" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]0c" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]0e" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]13" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]16" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]19" n="">@remove()</e>
+<e en="T" t="0033[MITRA OBJECT UTF8 ATTRIBUTES 1.0]1c" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]28" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]29" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]2a" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]30" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]60" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]61" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]62" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]64" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]6f" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]80" n="">@remove()</e>
+<e en="T" t="0043[GEMS_PARM_01]82" n="">@remove()</e>
+<e en="T" t="0047[GEMS_3DSTATE_001]e9" n="">@remove()</e>
+<e en="T" t="0047[GEMS_3DSTATE_001]ea" n="">@remove()</e>
+<e en="T" t="0047[GEMS_3DSTATE_001]eb" n="">@remove()</e>
+<e en="T" t="0047[GEMS_3DSTATE_001]ec" n="">@remove()</e>
+<e en="T" t="0047[GEMS_3DSTATE_001]ed" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]0a" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]0c" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]0d" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]0e" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]11" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]12" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]15" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]16" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]17" n="">@remove()</e>
+<e en="T" t="0051[SIEMENS MR HEADER]19" n="">@remove()</e>
+<e en="T" t="0053[GEHC_CT_ADVAPP_001]68" n="">@remove()</e>
+<e en="T" t="0053[GEHC_CT_ADVAPP_001]6a" n="">@remove()</e>
+<e en="T" t="0053[GEHC_CT_ADVAPP_001]6b" n="">@remove()</e>
+<e en="T" t="0053[GEHC_CT_ADVAPP_001]9d" n="">@remove()</e>
+<e en="T" t="0073[STENTOR]01" n="">@remove()</e>
+<e en="T" t="0073[STENTOR]02" n="">@remove()</e>
+<e en="T" t="0073[STENTOR]03" n="">@remove()</e>
+<e en="T" t="0073[STENTOR]04" n="">@remove()</e>
+<e en="T" t="0073[STENTOR]06" n="">@remove()</e>
+<e en="T" t="0091[SIENET]20" n="">@remove()</e>
+<e en="T" t="0095[SIENET]01" n="">@remove()</e>
+<e en="T" t="0097[SIENET]03" n="">@remove()</e>
+<e en="T" t="0099[SIENET]05" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]02" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]14" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]24" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]25" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]36" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]39" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]3f" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]40" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]42" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]51" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]61" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]63" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]a0" n="">@remove()</e>
+<e en="T" t="00e1[ELSCINT1]c2" n="">@remove()</e>
+<e en="T" t="01e1[ELSCINT1]41" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]0e" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]30" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]31" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]36" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]37" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]38" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]42" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]43" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]44" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]46" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]47" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]49" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]4a" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]4b" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]4c" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]4d" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]4e" n="">@remove()</e>
+<e en="T" t="01f1[ELSCINT1]53" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]01" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]11" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]12" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]13" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]14" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]15" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]16" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]17" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]18" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]19" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]23" n="">@remove()</e>
+<e en="T" t="01f3[ELSCINT1]24" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]10" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]11" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]13" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]14" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]15" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]16" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]17" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]18" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]19" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]1a" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]1b" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]1c" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]1e" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]1f" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]22" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]23" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]25" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]26" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]27" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]28" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]29" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]2b" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]2c" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]2d" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]30" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]31" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]70" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]73" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]74" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]75" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]7f" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]95" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]97" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]99" n="">@remove()</e>
+<e en="T" t="01f7[ELSCINT1]9b" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]02" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]10" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]11" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]13" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]2a" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]2b" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]36" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]3d" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]40" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]42" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]43" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]47" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]50" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]56" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]58" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]5d" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]5f" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]70" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]71" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]75" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]82" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]85" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]88" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]98" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]a7" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]c2" n="">@remove()</e>
+<e en="T" t="07a1[ELSCINT1]d0" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]01" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]03" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]04" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]05" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]06" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]13" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]14" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]15" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]17" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]18" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]19" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1a" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1b" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1c" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1d" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1e" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]1f" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]22" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]23" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]24" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]26" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]34" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]43" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]55" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]5c" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]62" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]65" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]80" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]8f" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]99" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]9c" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]b4" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]b5" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]b6" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]b7" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]b9" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]bb" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]c0" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]c6" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]ca" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]cb" n="">@remove()</e>
+<e en="T" t="07a3[ELSCINT1]ce" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]54" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]56" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]59" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]62" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]63" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]69" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]98" n="">@remove()</e>
+<e en="T" t="07a5[ELSCINT1]c8" n="">@remove()</e>
+<e en="T" t="0903[GEIIS PACS]20" n="">@remove()</e>
+<e en="T" t="0905[GEIIS]30" n="">@remove()</e>
+<e en="T" t="1001[Philips Imaging DD 001]12" n="">@remove()</e>
+<e en="T" t="1099[TABLE_HEIGHT]99" n="">@remove()</e>
+<e en="T" t="2001[Philips Imaging DD 001]63" n="">@remove()</e>
+<e en="T" t="2001[Philips Imaging DD 001]de" n="">@remove()</e>
+<e en="T" t="2001[Philips Imaging DD 002]6b" n="">@remove()</e>
+<e en="T" t="2001[Philips Imaging DD 129]00" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 001]2a" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 001]83" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 002]34" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 003]49" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 004]91" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 005]02" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 005]04" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 005]0e" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 005]0f" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 005]92" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]53" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]54" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]55" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]56" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]57" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]58" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]59" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]60" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]61" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]62" n="">@remove()</e>
+<e en="T" t="2005[Philips MR Imaging DD 006]68" n="">@remove()</e>
+<e en="T" t="3109[Applicare/RadWorks/Version 5.0]02" n="">@remove()</e>
+<e en="T" t="3109[Applicare/RadWorks/Version 5.0]08" n="">@remove()</e>
+<e en="T" t="3109[Applicare/RadWorks/Version 5.0]0a" n="">@remove()</e>
+<e en="T" t="3109[Applicare/RadWorks/Version 5.0]0b" n="">@remove()</e>
+<e en="T" t="3109[Applicare/RadWorks/Version 6.0/Summary]12" n="">@remove()</e>
+<e en="T" t="3115[http://www.gemedicalsystems.com/it_solutions/rad_pacs/]01" n="">@remove()</e>
+<e en="T" t="3241[Varian Medical Systems VISION 3241]00" n="">@remove()</e>
+<e en="T" t="3241[Varian Medical Systems VISION 3241]02" n="">@remove()</e>
+<e en="T" t="3241[Varian Medical Systems VISION 3241]04" n="">@remove()</e>
+<e en="T" t="3241[Varian Medical Systems VISION 3241]05" n="">@remove()</e>
+<e en="T" t="3241[Varian Medical Systems VISION 3241]06" n="">@remove()</e>
+<e en="T" t="3253[Varian Medical Systems VISION 3253]00" n="">@remove()</e>
+<e en="T" t="3253[Varian Medical Systems VISION 3253]01" n="">@remove()</e>
+<e en="T" t="3253[Varian Medical Systems VISION 3253]02" n="">@remove()</e>
+<e en="T" t="3287[Varian Medical Systems VISION 3287]00" n="">@remove()</e>
+<e en="T" t="3773[MIM Software Inc.]07" n="">@remove()</e>
+<e en="T" t="3773[MIM Software Inc.]0c" n="">@remove()</e>
+<e en="T" t="3773[MIM Software Inc.]18" n="">@remove()</e>
+<e en="T" t="3773[Unnamed Private Block - 01]20" n="">@remove()</e>
+<e en="T" t="3773[Unnamed Private Block - 01]22" n="">@remove()</e>
+<e en="T" t="3773[Unnamed Private Block - 01]30" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]00" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]01" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]02" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]04" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]05" n="">@remove()</e>
+<e en="T" t="4453[DR Systems, Inc.]0c" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]0d" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]14" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]1f" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]41" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]43" n="">@remove()</e>
+<e en="T" t="7005[TOSHIBA_MEC_CT3]63" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]01" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]02" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]03" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]05" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]06" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]13" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]14" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]15" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]16" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]17" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]18" n="">@remove()</e>
+<e en="T" t="7053[Philips PET Private Group]c2" n="">@remove()</e>
+<e en="T" t="7fdf[ELSCINT1]f0" n="">@remove()</e>
+<e en="T" t="7fdf[ELSCINT1]ff" n="">@remove()</e>
+<e en="T" t="3263[Unnamed Private Block - 10]00" n="">@remove()</e>
+<e en="T" t="3263[Varian Medical Systems VISION 3263]00" n="">@remove()</e>
+<e en="T" t="3773[MIM Software Inc.]05" n="">@remove()</e>
+<e en="T" t="3267[Varian Medical Systems VISION 3267]00" n="">@remove()</e>
+<e en="T" t="3249[Varian Medical Systems VISION 3249]00" n="">@remove()</e>
+<e en="T" t="3249[Varian Medical Systems VISION 3249]10" n="">@remove()</e>
+<e en="T" t="3285[Varian Medical Systems VISION 3285]00" n="">@remove()</e>
+
+ <r en="F" t="unspecifiedelements">Remove unchecked elements</r>
+</script>

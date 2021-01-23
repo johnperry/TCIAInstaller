@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Server maxThreads="20" port="24080"></Server>
+    <Plugin anonymizerID="CollectionDicomAnonymizer" anonymizerInputID="CollectionAnonymizerInput" anonymizerStorageID="CollectionAnonymizerStorage" class="edu.uams.tcia.TCIAPlugin" exportInputID="CollectionExportInput" exportManifestLogID="CollectionExportManifestLog" exportOutputID="CollectionExportOutput" id="Collection" importInputID="CollectionImportInput" importManifestLogID="CollectionImportManifestLog" importStorageID="CollectionImportStorage" name="CollectionTCIAPlugin" root="Collection/TCIAplugin"></Plugin>
+    <Plugin class="edu.uams.tcia.ExportManifestLogPlugin" id="CollectionExportManifestLog" name="CollectionExportManifestLog" root="Collection/ExportManifestLog" tciaPluginID="Collection"></Plugin>
+    <Plugin class="edu.uams.tcia.ImportManifestLogPlugin" id="CollectionImportManifestLog" name="CollectionImportManifestLog" root="Collection/ImportManifestLog"></Plugin>
+    <Pipeline name="CollectionImport" root="Collection/import">
+        <DirectoryImportService class="org.rsna.ctp.stdstages.DirectoryImportService" id="CollectionImportInput" import="roots/DirectoryImportService/import" interval="4000" name="DirectoryImportService" quarantine="quarantines/DirectoryImportService" root="roots/DirectoryImportService"></DirectoryImportService>
+        <DicomImportService class="org.rsna.ctp.stdstages.DicomImportService" logConnections="no" name="DicomImportService" port="104" quarantine="quarantines/DicomImportService" root="roots/DicomImportService"></DicomImportService>
+        <ImportManifestLogger class="edu.uams.tcia.ImportManifestLogger" id="CollectionImportManifestLogger" manifestLogID="CollectionImportManifestLog" name="ImportManifestLogger" root="roots/CollectionImportManifestLogger"></ImportManifestLogger>
+        <DirectoryStorageService acceptDuplicates="yes" class="org.rsna.ctp.stdstages.DirectoryStorageService" defaultString="" id="CollectionImportStorage" logDuplicates="no" name="DirectoryStorageService" quarantine="quarantines/DirectoryStorageService" root="roots/DirectoryStorageService" setStandardExtensions="no" structure="(0010,0020)-(0010,0010)/(0008,0020)/Series(0020,0011)" whitespaceReplacement="_"></DirectoryStorageService>
+    </Pipeline>
+    <Pipeline name="CollectionAnonymization" root="Collection/anonymization">
+        <DirectoryImportService class="org.rsna.ctp.stdstages.DirectoryImportService" id="CollectionAnonymizerInput" import="roots/DirectoryImportService/import" interval="4000" name="DirectoryImportService" quarantine="quarantines/DirectoryImportService" root="roots/DirectoryImportService"></DirectoryImportService>
+        <ObjectCache class="org.rsna.ctp.stdstages.ObjectCache" id="CollectionObjectCache" name="ObjectCache" root="roots/ObjectCache"></ObjectCache>
+        <Processor class="org.rsna.ctp.stdstages.DicomFilter" name="DICOM Burn-In-PHI Filter" quarantine="quarantines/BurnedInPixelsFilter" root="roots/dicom-filter" script="scripts/BurnedInPixelsFilter.script"></Processor>
+	   <DicomAnonymizer class="org.rsna.ctp.stdstages.DicomAnonymizer" id="CollectionDicomAnonymizer" lookupTable="scripts/LookupTable.properties" name="DicomAnonymizer" quarantine="quarantines/DicomAnonymizer" root="roots/DicomAnonymizer" script="scripts/TCIADicomAnonymizer.script"></DicomAnonymizer>
+        <DicomAnonymizer class="org.rsna.ctp.stdstages.DicomAnonymizer" id="CollectionDicomAnonymizer1" name="DicomAnonymizer1" quarantine="quarantines/DicomAnonymizer1" root="roots/DicomAnonymizer1" script="scripts/TruncateYearOfDiag.script"></DicomAnonymizer>
+	  <ExportManifestLogger cacheID="CollectionObjectCache" class="edu.uams.tcia.ExportManifestLogger" id="CollectionExportManifestLogger" manifestLogID="CollectionExportManifestLog" name="ExportManifestLogger" root="roots/CollectionExportManifestLogger"></ExportManifestLogger>
+        <DirectoryStorageService acceptDuplicates="yes" cacheID="CollectionObjectCache" class="org.rsna.ctp.stdstages.DirectoryStorageService" defaultString="" id="CollectionAnonymizerStorage" logDuplicates="no" name="DirectoryStorageService" quarantine="quarantines/DirectoryStorageService" root="roots/DirectoryStorageService" setStandardExtensions="no" structure="(0010,0020)-(0010,0010)/(0008,0020)/Series(0020,0011)" whitespaceReplacement="_"></DirectoryStorageService>
+    </Pipeline>
+    <Pipeline name="CollectionExport" root="Collection/export">
+        <DirectoryImportService class="org.rsna.ctp.stdstages.DirectoryImportService" id="CollectionExportInput" import="roots/DirectoryImportService/import" interval="4000" name="DirectoryImportService" quarantine="quarantines/DirectoryImportService" root="roots/DirectoryImportService"></DirectoryImportService>
+        <HttpExportService class="org.rsna.ctp.stdstages.HttpExportService" id="CollectionExportOutput" name="HttpExportService" quarantine="quarantines/HttpExportService" root="roots/HttpExportService" sendDigestHeader="no" url="http://127.0.0.1:7777"></HttpExportService>
+    </Pipeline>
+    <Pipeline name="ExportReceiver" root="Collection/storage/dicom">
+        <HttpImportService class="org.rsna.ctp.stdstages.HttpImportService" logConnections="no" name="HttpImportService" port="7777" quarantine="quarantines/HttpImportService" root="roots/HttpImportService"></HttpImportService>
+        <FileStorageService class="org.rsna.ctp.stdstages.FileStorageService" name="FileStorageService" port="9001" quarantine="quarantines/FileStorageService" returnStoredFile="no" root="roots/FileStorageService"></FileStorageService>
+        <ExportService name="HTTP Export" class="org.rsna.ctp.stdstages.HttpExportService" root="roots/http-export" username="jkirby01" password="tcjotm$JK" url="https://ctp-import.cancerimagingarchive.net:443"></ExportService>
+    </Pipeline>
+</Configuration>

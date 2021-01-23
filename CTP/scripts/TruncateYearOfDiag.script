@@ -1,0 +1,4 @@
+<script>
+<e en="T" t="00131050" n="StudyYear">@truncate(this,4)</e>
+<e en="T" t="00131051" n="DiagnosisYear">@truncate(this,-4)</e>
+</script>

@@ -1,0 +1,46 @@
+<project name="TCIAPlugin" default="deploy" basedir=".">
+
+	<property name="products" value="${basedir}/products"/>
+	<property name="ctp" value="D:/Development/CTP"/>
+	<property name="tcia" value="D:/Development/TCIAPlugin"/>
+
+	<target name="init">
+		<tstamp>
+			<format property="today" pattern="yyyy.MM.dd"/>
+			<format property="now" pattern="HH:mm:ss"/>
+		</tstamp>
+		<echo message="Time now ${now}"/>
+		<echo message="ant.java.version = ${ant.java.version}" />
+		<delete dir="${products}" failonerror="false" />
+		<mkdir dir="${products}"/>
+	</target>
+
+	<target name="jar" depends="init">
+	
+		<copy overwrite="true" todir="${basedir}/CTP/libraries">
+			<fileset dir="${tcia}/products" includes="TCIAPlugin.jar"/>
+		</copy>
+
+		<jar destfile="${products}/TCIA-installer.jar">
+			<manifest>
+				<attribute name="Main-Class" value="org.rsna.installer.Installer"/>
+	            <attribute name="Date" value="${today} at ${now}"/>
+	            <attribute name="Java-Version" value="${ant.java.version}"/>
+            	<attribute name="Description" value="CTP for the TCIA Program"/>
+			</manifest>
+			<fileset dir="${ctp}/build"
+				includes="org/rsna/installer/Installer** CTP/**"
+				excludes="CTP/config/**"/>
+			<fileset dir="${basedir}" includes="CTP/**"/>
+			<fileset dir="${basedir}" includes="config/**"/>
+		</jar>
+
+	</target>
+
+	<target name="deploy" depends="jar">
+		<copy overwrite="true" todir="D:/Casa/Website/ROOT/wings/misc">
+			<fileset dir="${products}"/>
+		</copy>		
+	</target>
+
+</project>
