@@ -21,7 +21,7 @@
     </Pipeline>
     <Pipeline name="CollectionExport" root="Collection/export">
         <DirectoryImportService class="org.rsna.ctp.stdstages.DirectoryImportService" id="CollectionExportInput" import="roots/DirectoryImportService/import" interval="4000" name="DirectoryImportService" quarantine="quarantines/DirectoryImportService" root="roots/DirectoryImportService"></DirectoryImportService>
-        <HttpExportService class="org.rsna.ctp.stdstages.HttpExportService" id="CollectionExportOutput" name="HttpExportService" quarantine="quarantines/HttpExportService" root="roots/HttpExportService" sendDigestHeader="no" url="http://127.0.0.1:7777"></HttpExportService>
+        <HttpExportService class="edu.uams.tcia.PosdaExportService" id="CollectionExportOutput" name="PosdaExportService" quarantine="quarantines/PosdaExportService" root="roots/PosdaExportService" url="http://127.0.0.1:7777"></HttpExportService>
     </Pipeline>
     <Pipeline name="ExportReceiver" root="Collection/storage/dicom">
         <HttpImportService class="org.rsna.ctp.stdstages.HttpImportService" logConnections="no" name="HttpImportService" port="7777" quarantine="quarantines/HttpImportService" root="roots/HttpImportService"></HttpImportService>
