@@ -7,9 +7,10 @@
         <p>Browse your computer and locate the directory containing the DICOM data you would like to submit. All sub-directories will be included in the import.</p>
 
         <p>NOTE: The act of importing creates a copy of your data. Please ensure you have enough free space. You currently have {{serverSpace}}.</p>
-        <!--<div class="step-btns-wrapper">
-          <button class="btn-norm" v-on:click="nextTabClick">Import Data</button>
-        </div>-->
+
+        <p>Or</p>
+
+        <p><a href="#" class="bright-link" v-on:click="skipImportClick">Confirm your PACS Import</a></p>
       </div>
 
     </div>
@@ -51,7 +52,7 @@
 
   export default {
     name: 'import',
-    props:['currentFileSystemPath'],
+    props:['currentFileSystemPath', 'alreadyImported'],
     created() {
       this.updateAvailableServerSpace();
       this.updateFileSystemTree("/");
@@ -59,6 +60,11 @@
     methods: {
       nextTabClick: function(){
         console.log("nextTabClick");
+        this.$root.$emit('nextTab', 'Import');
+      },
+      skipImportClick: function(){
+        console.log("skipImportClick");
+        this.$emit('update:alreadyImported', true);
         this.$root.$emit('nextTab', 'Import');
       },
       dirItemClick: function (item) {
@@ -175,6 +181,10 @@
   #breadcrumbs a:hover {
     color: #333;
 
+  }
+
+  .bright-link{
+    color: #5CB9F0 !important;
   }
 
   .file-header {

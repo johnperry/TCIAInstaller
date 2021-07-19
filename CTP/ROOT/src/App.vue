@@ -19,7 +19,7 @@
       <tab-content title="Import" icon="ti-files" :before-change="copyIntoImportPipeline">
         <div v-if="loadingWizard === false">
 
-          <import v-if="loggedIn" ref="importComponent" :currentFileSystemPath.sync="currentFileSystemPath"></import>
+          <import v-if="loggedIn" ref="importComponent" :currentFileSystemPath.sync="currentFileSystemPath" :alreadyImported.sync="alreadyImported"></import>
 
           <div class="bottomInfo"> Download my <a class="link" v-on:click="downloadHistoryPHI">Submission History</a></div>
         </div>
@@ -254,46 +254,52 @@
         console.log("method: copyIntoImportPipeline");
         console.log("currentFileSystemPath:" + this.currentFileSystemPath);
 
+
+
+
         var a = this;
         return new Promise((resolve, reject) => {
           var myhttp = a.$http;
 
-          myhttp.get('/Collection/getSpaceRequired?file=' + this.currentFileSystemPath).then(response => {
-            console.log(response.body);
-            var xml = parser.parseFromString(response.body, "text/xml");
-            var partition = xml.getElementsByTagName("space")[0].getAttribute("partition");
-            var available = parseInt(xml.getElementsByTagName("space")[0].getAttribute("available"));
-            var units = xml.getElementsByTagName("space")[0].getAttribute("units");
-            var required = parseInt(xml.getElementsByTagName("space")[0].getAttribute("required"));
 
-            //Check to ensure there is at least 1GB of left space.  Else do not allow to move forward
-            //Currently units always returned as MB
-            var enoughSpace = (available - required > 1000);
+          if (this.alreadyImported == false) {
+            myhttp.get('/Collection/getSpaceRequired?file=' + this.currentFileSystemPath).then(response => {
+              console.log(response.body);
+              var xml = parser.parseFromString(response.body, "text/xml");
+              var partition = xml.getElementsByTagName("space")[0].getAttribute("partition");
+              var available = parseInt(xml.getElementsByTagName("space")[0].getAttribute("available"));
+              var units = xml.getElementsByTagName("space")[0].getAttribute("units");
+              var required = parseInt(xml.getElementsByTagName("space")[0].getAttribute("required"));
 
-            if (enoughSpace) {
-              //submit the files
-              ctpService.submitFile(this.currentFileSystemPath).then(function (response) {
-                console.log("submitFile response body: " + response.data);
-                var xml = parser.parseFromString(response.data, "text/xml");
-                console.log("xml: " + xml);
-                if (xml.getElementsByTagName("NOTOK")[0]){
-                  a.filesSubmittedOk = -1;
-                  a.errorMessages.push("There was a problem copying the files into the import pipeline.");
-                  resolve( false);
-                }
-                else{
-                  a.filesSubmittedOk = 1;
-                  a.acceptedFileCount = xml.getElementsByTagName("OK")[0].getAttribute("acceptedFileCount");
-                  a.skippedFileCount = xml.getElementsByTagName("OK")[0].getAttribute("skippedFileCount");
-                }
-              });
-            }
-            else {
-              //Hard stop if there is not enough space to continue
-              this.errorMessages.push('There is not enough room on the drive to import the selected data! Try selecting a smaller dataset.')
-              resolve( false);
-            }
-          })
+              //Check to ensure there is at least 1GB of left space.  Else do not allow to move forward
+              //Currently units always returned as MB
+              var enoughSpace = (available - required > 1000);
+
+              if (enoughSpace) {
+                //submit the files
+                ctpService.submitFile(this.currentFileSystemPath).then(function (response) {
+                  console.log("submitFile response body: " + response.data);
+                  var xml = parser.parseFromString(response.data, "text/xml");
+                  console.log("xml: " + xml);
+                  if (xml.getElementsByTagName("NOTOK")[0]) {
+                    a.filesSubmittedOk = -1;
+                    a.errorMessages.push("There was a problem copying the files into the import pipeline.");
+                    resolve(false);
+                  }
+                  else {
+                    a.filesSubmittedOk = 1;
+                    a.acceptedFileCount = xml.getElementsByTagName("OK")[0].getAttribute("acceptedFileCount");
+                    a.skippedFileCount = xml.getElementsByTagName("OK")[0].getAttribute("skippedFileCount");
+                  }
+                });
+              }
+              else {
+                //Hard stop if there is not enough space to continue
+                this.errorMessages.push('There is not enough room on the drive to import the selected data! Try selecting a smaller dataset.')
+                resolve(false);
+              }
+            })
+          }
 
 
           var checkstatus = function(){
@@ -303,7 +309,8 @@
                 var xml = parser.parseFromString(response.body, "text/xml");
                 var status = xml.getElementsByTagName("status")[0];
                 var queueSize = status.getAttribute("queueSize");
-                var complete = queueSize == 0 && a.filesSubmittedOk != 0;
+                console.log("alreadyImported: " + a.alreadyImported);
+                var complete = queueSize == 0 && (a.filesSubmittedOk != 0 || a.alreadyImported == true);
                 console.log("import complete: " + complete);
 
                 if (complete)
@@ -593,7 +600,8 @@
         errorMessages: [],
         showModal: true,
         acceptedFileCount: 0,
-        skippedFileCount: 0
+        skippedFileCount: 0,
+        alreadyImported: false
       }
     }
 
