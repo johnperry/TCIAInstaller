@@ -21,6 +21,6 @@
     </Pipeline>
     <Pipeline name="CollectionExport" root="Collection/export">
         <DirectoryImportService class="org.rsna.ctp.stdstages.DirectoryImportService" id="CollectionExportInput" import="roots/DirectoryImportService/import" interval="4000" name="DirectoryImportService" quarantine="quarantines/DirectoryImportService" root="roots/DirectoryImportService"></DirectoryImportService>
-        <PosdaExportService class="edu.uams.tcia.PosdaExportService" id="CollectionExportOutput" name="PosdaExportService" quarantine="quarantines/PosdaExportService" root="roots/PosdaExportService" url="http://127.0.0.1:7777"></PosdaExportService>
+        <PosdaExportService class="org.rsna.ctp.stdstages.PosdaExportService" id="CollectionExportOutput" name="PosdaExportService" quarantine="quarantines/PosdaExportService" root="roots/PosdaExportService" url="http://127.0.0.1:7777"></PosdaExportService>
     </Pipeline>
 </Configuration>
